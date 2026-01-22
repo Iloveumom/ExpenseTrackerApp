@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense tracker</title>
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+            <div class="expense-app">
+
+    <h2 class="expense-title">Expense Tracker</h2>
+    <p id="Msg"></p>
+    <div class="expense-form">
+    <form onsubmit="addExpense(event)">
+
+            <input type="number" class="expense-input expense-amount" placeholder="Amount" name="amount" id="amount" required>
+
+            <input type="text" class="expense-input expense-desc" placeholder="Description" name="description" id="description" onblur="findCategoryByAi(event)" required>
+
+            <select class="expense-input expense-category" name="category" id="category" >
+                    <option value="">Select Category</option>
+                    <option>Food</option>
+                    <option>Oil</option>
+                    <option>Travel</option>
+                    <option>Shopping</option>
+                    <option>Other</option>
+                </select>
+                
+                <button class="expense-btn">Add Expense</button>
+                <p>You Are premium user</p>
+               
+    </form>
+   
+
+    </div>
+      <button onclick="showLeaderBoard();">Show LeaderBoard</button>
+    <ul class="expense-list">
+        <!-- li dynamically add honge -->
+    </ul>
+    
+</div>
+<ul id="leaderboard">
+    </ul>
+<script src="js/indexscript.js"></script>
+</body> 
+</html>
