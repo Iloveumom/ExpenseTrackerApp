@@ -3,6 +3,7 @@ const User = require("../models/users");
 const ForgotPasswordRequest = require("../models/ForgotPasswordRequest");
 const { sendForgotPasswordMail } = require("../services/brevoMail");
 const bcrypt=require("bcrypt");
+const sequelize=require("../utils/db_connection");
 
 const forgotPassword = async (req, res) => {
   try {
@@ -64,40 +65,45 @@ const verifyResetLink = async (req, res) => {
  res.redirect(`/reset-password.html?uuid=${uuid}`);
 }
 
+
+
 const resetPassword = async (req, res) => {
   const { uuid } = req.params;
-  const { oldPassword, newPassword } = req.body;
+  const {newPassword } = req.body;
+
+  const t = await sequelize.transaction();
 
   try {
-    //console.log("fsdf",uuid);
     const request = await ForgotPasswordRequest.findOne({
-      where: { id: uuid, isActive: true }
+      where: { id: uuid, isActive: true },
+      transaction: t
     });
-   // console.log("link",request);
+
     if (!request) {
+      await t.rollback();
       return res.status(400).json({ message: "Invalid or expired link" });
     }
 
-    const user = await User.findByPk(request.SignupId);
-
-    const isMatch = await bcrypt.compare(oldPassword, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ message: "Old password is incorrect" });
-    }
+    const user = await User.findByPk(request.SignupId, {
+      transaction: t
+    });
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     user.password = hashedPassword;
-    await user.save();
+    await user.save({ transaction: t });
 
     request.isActive = false;
-    await request.save();
+    await request.save({ transaction: t });
+
+    await t.commit();
 
     res.status(200).json({ message: "Password reset successfully" });
 
   } catch (err) {
+    await t.rollback();
     console.log(err);
-    res.status(500).json({ message: "Server error",error:err});
+    res.status(500).json({ message: "Server error" });
   }
-}
+};
 
 module.exports = { forgotPassword,resetPassword,verifyResetLink};
