@@ -1,32 +1,63 @@
-// const token = localStorage.getItem("token");
 
-// if (!token) {
-//   alert("Please login first");
-//   window.location.href = "login.html";
-// }
-initilize();
-async function initilize()
-{
-  try
-  {
-    const token = localStorage.getItem("token");
-   
-    const response=await axios.get("http://localhost:4000/expenses/getExpenses", {
-      headers: {
-        Authorization:token   
-      }
-    })
-    
-      console.log(response.data);
-      response.data.data.forEach(expense => {
-        display(expense);
-      });
-  } 
-  catch(error) 
-  {
-      console.log(error);
-  }
+let currentPage = 1; 
+window.addEventListener("DOMContentLoaded", () => {
+    loadExpenses(currentPage);
+});
+async function loadExpenses(page) {
+    try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`http://localhost:4000/expenses/getExpenses?page=${page}`, {
+            headers: {
+                Authorization:token  
+            }
+        });
+        const expensesContainer = document.querySelector(".expense-list");
+        expensesContainer.innerHTML = ""; // purani expenses clear
+        response.data.data.forEach(expense => {
+            display(expense); // aapka display function
+        });
+        renderPagination(response.data.page, response.data.totalPages);
+    } catch (error) {
+        console.log("Error fetching expenses:", error);
+    }
 }
+
+function renderPagination(current, totalPages) {
+    const pagination = document.getElementById("pagination");
+    pagination.innerHTML = "";
+    // Previous button
+    const prevBtn = document.createElement("button");
+    prevBtn.innerText = "Previous";
+    prevBtn.disabled = current === 1;
+    prevBtn.onclick = () => {
+        currentPage--;
+        loadExpenses(currentPage);
+    };
+    pagination.appendChild(prevBtn);
+
+    // Page numbers
+    for (let i = 1; i <= totalPages; i++) {
+        const pageBtn = document.createElement("button");
+        pageBtn.innerText = i;
+        pageBtn.disabled = i === current;
+        pageBtn.onclick = () => {
+            currentPage = i;
+            loadExpenses(currentPage);
+        };
+        pagination.appendChild(pageBtn);
+    }
+
+    // Next button
+    const nextBtn = document.createElement("button");
+    nextBtn.innerText = "Next";
+    nextBtn.disabled = current === totalPages;
+    nextBtn.onclick = () => {
+        currentPage++;
+        loadExpenses(currentPage);
+    };
+    pagination.appendChild(nextBtn);
+}
+
 async function addExpense(event)
 {
   try
@@ -82,7 +113,7 @@ async function addExpense(event)
 }
 function display(data)
 {
-  
+  console.log(document.querySelector('.expense-list'));
     const li = document.createElement('li');
 
     li.innerHTML = `
