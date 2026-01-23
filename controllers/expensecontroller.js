@@ -43,7 +43,7 @@ const getExpenses=async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1; // default page 1
         console.log("page",page);
-        const limit = 5; // backend controlled limit
+        const limit =10; // backend controlled limit
         const offset = (page - 1) * limit;
 
         // total items for this user
