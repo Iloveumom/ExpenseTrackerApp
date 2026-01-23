@@ -9,7 +9,7 @@ async function initilize()
 {
   try
   {
-      const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
    
     const response=await axios.get("http://localhost:4000/expenses/getExpenses", {
       headers: {
@@ -131,38 +131,6 @@ async function deleteExpense(li, id)
 
             alert("Server error");
   };
-}
-//showLeaderBoard
-async function showLeaderBoard() {
-    try{
-      const res=await axios.get("http://localhost:4000/premium/showLeaderboard")
-      if (res.data.success) {
-        const leaderboard = document.getElementById("leaderboard");
-        // keep heading, remove old rows
-        leaderboard.innerHTML = `
-          <li class="heading">
-            <span>Name</span>
-            <span>Total Amount</span>
-          </li>
-        `;
-        res.data.data.forEach((user) => {
-          const li = document.createElement("li");
-
-          li.innerHTML = `
-            <span>${user.name}</span>
-            <span>₹${user.total_expense}</span>
-          `;
-
-          leaderboard.appendChild(li);
-        });
-      } else {
-        console.log("No data");
-      }
-    }
-    catch(err) {
-      console.error(err);
-      alert("Server error");
-    }
 }
 //Ai genrate category
 async function findCategoryByAi(event)

@@ -23,6 +23,9 @@ const signup=sequelize.define('Signup',{
      total_expense:{
          type:DataTypes.INTEGER,
          defaultValue:0
+    },isPremium: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
 });
 module.exports=signup;

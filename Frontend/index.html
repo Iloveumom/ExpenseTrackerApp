@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense tracker</title>
+    
+  <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
             <div class="expense-app">
-
+                
+    <div class="premium">            
+         <button id="buyPremiumBtn"></button>     
+    </div>       
     <h2 class="expense-title">Expense Tracker</h2>
     <p id="Msg"></p>
     <div class="expense-form">
@@ -30,20 +35,25 @@
                 </select>
                 
                 <button class="expense-btn">Add Expense</button>
-                <p>You Are premium user</p>
+         
                
     </form>
-   
+   <div class="premiumuser">
+   </div> 
 
     </div>
-      <button onclick="showLeaderBoard();">Show LeaderBoard</button>
+    
     <ul class="expense-list">
         <!-- li dynamically add honge -->
     </ul>
-    
+       
 </div>
+
 <ul id="leaderboard">
-    </ul>
+
+</ul>
+
 <script src="js/indexscript.js"></script>
+<script src="js/premiumscript.js"></script>
 </body> 
 </html>

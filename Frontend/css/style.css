@@ -127,3 +127,16 @@ body {
     width: 1100px;
     list-style: none;
 }
+.premium
+{
+  display: flex;
+  justify-content: end;
+}
+.premiumuser{
+  display: flex;
+  justify-content: center;
+}
+#leaderboard
+{
+  width:200px;
+}

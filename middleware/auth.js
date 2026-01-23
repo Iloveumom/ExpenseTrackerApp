@@ -1,12 +1,13 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/users");
 
+
 const authenticate = async (req, res, next) => {
   try {
    
     // Token directly header me aa raha hai
     const token = req.header("Authorization");
-     console.log(token);
+     console.log("token",token);
     if (!token) {
       return res.status(401).json({
         success: false,
