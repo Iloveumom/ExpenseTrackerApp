@@ -43,11 +43,11 @@ const checkLogindetail = async (req, res) => {
     return res.status(401).json({ message: "Invalid password" });
   }
 
-  res.status(200).json({ message: "Login successful",token:genrateToken(user.id,user.email)});
+  res.status(200).json({ message: "Login successful",token:genrateToken(user.id,user.email,user.isPremium)});
 };
-const genrateToken=(id,email)=>{
+const genrateToken=(id,email,isPremium)=>{
    return jwt.sign(
-    { SignupId:id ,email:email},"secret_key"
+    { SignupId:id ,email:email,isPremium:isPremium},"secret_key"
   );
 }
 
