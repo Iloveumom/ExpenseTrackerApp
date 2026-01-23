@@ -40,21 +40,38 @@ const addExpense = async (req, res) =>
 };
 
 const getExpenses=async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1; // default page 1
+        console.log("page",page);
+        const limit = 5; // backend controlled limit
+        const offset = (page - 1) * limit;
 
-  try
-  {
-      let data=await Expenses.findAll({where:{
-        SignupId:req.user.id
-      }});
-      res.status(200).json({ message: "" ,data});
-  }
-  catch(err)
-  {
-    console.log(err);
-            res.status(500).json({error:err.message});
-  }
-  
-};
+        // total items for this user
+        const total = await Expenses.count({
+            where: { SignupId: req.user.id }
+        });
+
+        // fetch paginated expenses
+        const data = await Expenses.findAll({
+            where: { SignupId: req.user.id },
+            offset: offset,
+            limit: limit,
+            order: [["createdAt", "DESC"]] // optional: latest first
+        });
+
+        res.status(200).json({
+            data,
+            page,
+            totalPages: Math.ceil(total / limit),
+            totalItems: total
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: err.message });
+    }
+
+
+}
 
 const deleteExpense = async (req, res) => {
   const transaction = await sequelize.transaction();
