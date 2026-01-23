@@ -19,8 +19,12 @@ const expenses=sequelize.define('Expenses',{
     category:{
         type:DataTypes.STRING,
         allowNull:false,
-    }
-},
+    },
+    note: {
+  type: DataTypes.STRING,
+  allowNull: true   
+}
+ },
 {
       paranoid: true,    // soft delete ON
       timestamps: true

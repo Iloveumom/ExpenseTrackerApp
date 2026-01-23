@@ -56,7 +56,7 @@ function getLimit() {
     const pagination = document.getElementById("pagination");
     pagination.innerHTML = "";
 
-    if (totalPages <= 1) return; // 🔴 edge case
+    if (totalPages <= 1) return; //edge case
 
     const prevBtn = document.createElement("button");
     prevBtn.innerText = "Previous";
@@ -96,12 +96,13 @@ async function addExpense(event)
     const amount = event.target.amount.value;
     const desc = event.target.description.value;
     const category = event.target.category.value;
-    if(!amount || !desc || !category){
+     const note= event.target.note.value;
+    if(!amount || !desc || !category || !note){
         alert("All fields required");
         return;
     }
     let data={
-      amount,description:desc,category
+      amount,description:desc,category,note
     }
     const token = localStorage.getItem("token");
     const response=await axios.post("http://localhost:4000/expenses",data, {
@@ -151,6 +152,9 @@ function display(data)
 
         <div class="expense-category-text">
             <strong>${data.category}</strong>
+        </div>
+         <div class="expense-category-text">
+            <strong>${data.note}</strong>
         </div>
          <button class="expense-delete">Delete</button>
     `;
