@@ -7,7 +7,7 @@ const addExpense = async (req, res) =>
     const transaction= await sequelize.transaction();
     //transaction use 
       try {
-  const { amount, description, category } = req.body;
+  const { amount, description, category ,note} = req.body;
   const SignupId = req.user.id;
    //negtive amount check 
    if(amount <= 0) 
@@ -19,7 +19,8 @@ const addExpense = async (req, res) =>
       amount,
       description,
       category,
-      SignupId: SignupId
+      SignupId: SignupId,
+      note
     },{transaction});
 
     // User table me totalExpense update
