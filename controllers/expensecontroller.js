@@ -40,35 +40,34 @@ const addExpense = async (req, res) =>
 };
 
 const getExpenses=async (req, res) => {
-    try {
-        const page = parseInt(req.query.page) || 1; // default page 1
-        console.log("page",page);
-        const limit =10; // backend controlled limit
-        const offset = (page - 1) * limit;
-
-        // total items for this user
-        const total = await Expenses.count({
-            where: { SignupId: req.user.id }
-        });
-
-        // fetch paginated expenses
-        const data = await Expenses.findAll({
-            where: { SignupId: req.user.id },
-            offset: offset,
-            limit: limit,
-            order: [["createdAt", "DESC"]] // optional: latest first
-        });
-
-        res.status(200).json({
-            data,
-            page,
-            totalPages: Math.ceil(total / limit),
-            totalItems: total
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ error: err.message });
+  try
+  {  
+    const page = parseInt(req.query.page) || 1;
+    let limit = parseInt(req.query.limit) || 10;
+    //edge case 
+    if (![5, 10, 20, 40].includes(limit)) {
+      limit = 10;
     }
+    const offset = (page - 1) * limit;
+
+    const { count, rows } = await Expenses.findAndCountAll({
+      where: { signupId: req.user.id },
+      limit,
+      offset,
+      order: [['createdAt', 'DESC']]
+    });
+
+    res.status(200).json({
+      data: rows,
+      page: page,
+      totalPages: Math.ceil(count / limit),
+      totalItems: count
+    });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Server error" });
+  }
 
 
 }

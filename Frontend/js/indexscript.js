@@ -1,31 +1,63 @@
 
 let currentPage = 1; 
 window.addEventListener("DOMContentLoaded", () => {
+    const limitSelect = document.getElementById("limitSelect");
+
+    // restore saved li
+    const savedLimit = getLimit();
+    limitSelect.value = savedLimit;
+    limitSelect.addEventListener("change", () => {
+        localStorage.setItem("expenseLimit", limitSelect.value);
+        currentPage = 1;              // imp  edge fix
+        loadExpenses(currentPage);
+    });
     loadExpenses(currentPage);
 });
 async function loadExpenses(page) {
     try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`http://localhost:4000/expenses/getExpenses?page=${page}`, {
-            headers: {
-                Authorization:token  
-            }
-        });
+        const limit = getLimit();
+
+        const response = await axios.get(
+          `http://localhost:4000/expenses/getExpenses?page=${page}&limit=${limit}`,
+          {
+            headers: { Authorization: token }
+          }
+        );
+           if (currentPage > response.data.totalPages) {
+            currentPage = response.data.totalPages || 1;
+            return loadExpenses(currentPage);
+        }
         const expensesContainer = document.querySelector(".expense-list");
-        expensesContainer.innerHTML = ""; // purani expenses clear
+        expensesContainer.innerHTML = "";
+
+        if (response.data.data.length === 0) {
+            expensesContainer.innerHTML = "<li>No expenses found</li>";
+            return;
+        }
+
         response.data.data.forEach(expense => {
-            display(expense); // aapka display function
+            display(expense);
         });
+
         renderPagination(response.data.page, response.data.totalPages);
+
     } catch (error) {
         console.log("Error fetching expenses:", error);
     }
 }
-
-function renderPagination(current, totalPages) {
+function getLimit() {
+  let limit = parseInt(localStorage.getItem("expenseLimit"));
+  if (![5, 10, 20, 40].includes(limit)) {
+    limit = 10; // default
+  }
+  return limit;
+}function renderPagination(current, totalPages) {
     const pagination = document.getElementById("pagination");
     pagination.innerHTML = "";
-    // Previous button
+
+    if (totalPages <= 1) return; // 🔴 edge case
+
     const prevBtn = document.createElement("button");
     prevBtn.innerText = "Previous";
     prevBtn.disabled = current === 1;
@@ -35,7 +67,6 @@ function renderPagination(current, totalPages) {
     };
     pagination.appendChild(prevBtn);
 
-    // Page numbers
     for (let i = 1; i <= totalPages; i++) {
         const pageBtn = document.createElement("button");
         pageBtn.innerText = i;
@@ -47,7 +78,6 @@ function renderPagination(current, totalPages) {
         pagination.appendChild(pageBtn);
     }
 
-    // Next button
     const nextBtn = document.createElement("button");
     nextBtn.innerText = "Next";
     nextBtn.disabled = current === totalPages;
@@ -82,7 +112,7 @@ async function addExpense(event)
     const msg=document.getElementById("Msg");
     msg.innerText =response.data.message;
     msg.style="color:green";
-    display(data);
+    await loadExpenses(currentPage);
      event.target.reset();
     //document.getElementById("signupForm").reset();
     //alert("Expense add successs");
@@ -100,20 +130,14 @@ async function addExpense(event)
         {
           alert("server error");
         }
-      
-    //console.log(error.response.data.message);
-     //const msg=document.getElementById("Msg");
-     //msg.innerText =error.response.data.message
-     //msg.style="color:red";
-     //document.getElementById("loginForm").reset();
-  }
+}
 
    
    
 }
 function display(data)
 {
-  console.log(document.querySelector('.expense-list'));
+
     const li = document.createElement('li');
 
     li.innerHTML = `
@@ -150,7 +174,8 @@ async function deleteExpense(li, id)
             })
         
             if (res.data.success) {
-                li.remove();   // direct remove
+                //li.remove();   // direct remove
+                await loadExpenses(currentPage);
                 const msg=document.getElementById("Msg");
                  msg.innerText =res.data.message;
             } else {
@@ -189,3 +214,6 @@ async function findCategoryByAi(event)
      // alert("Server error");
     }
 }
+
+
+
