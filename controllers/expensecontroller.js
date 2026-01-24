@@ -66,7 +66,7 @@ const getExpenses=async (req, res) => {
     });
 
   } catch (err) {
-    console.log(err);
+    //console.log(err);
     res.status(500).json({ message: "Server error" });
   }
 
@@ -122,7 +122,7 @@ const deleteExpense = async (req, res) => {
 
   } catch (err) {
     await transaction.rollback();
-    console.error(err);
+   // console.error(err);
 
     res.status(500).json({
       success: false,

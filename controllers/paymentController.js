@@ -26,7 +26,7 @@ const createPayment = async (req, res) => {
 
         res.json({ sessionId }); // send session ID to frontend
     } catch (err) {
-        console.error(err);
+       // console.error(err);
         res.status(500).json({ error: 'Failed to create Cashfree session' });
     }
 };
@@ -47,7 +47,7 @@ const paymentStatus=async (req, res) =>
       user.isPremium = true;
       await user.save();
       //return res.json({message:"Transaction Successful"});
-      return res.redirect("http://localhost:4000/index.html");
+      return res.redirect(`${process.env.BASE_URL}/index.html`);
     }
 
     //FAILED
@@ -59,14 +59,14 @@ const paymentStatus=async (req, res) =>
       order.paymentStatus = "failed";
       await order.save();
        } else {
-    return res.redirect("http://localhost:3000/payment-failed");
+    return res.redirect(`${process.env.BASE_URL}/payment-failed`);
     }
 
     // ⏳ PENDING
     res.send("<h1>Payment Pending ⏳</h1>");
 
   } catch (err) {
-    console.error(err);
+   // console.error(err);
     res.send("<h2>Error checking payment status</h2>");
   }
 };

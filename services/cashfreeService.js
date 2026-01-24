@@ -22,19 +22,18 @@ const generateSession = async ({ orderId, orderAmount, orderCurrency,  customerI
         customer_phone: customerPhone,
       },
       order_meta: {
-        return_url: `http://localhost:4000/payment/payment-status/${orderId}`, // after payment
+        return_url: `${process.env.BASE_URL}payment/payment-status/${orderId}`, // after payment
          payment_methods: "cc,dc,upi"
       },
       order_expiry_date:formatedExprDate
     };
-    //console.log("testing cash free service");
+    
     // Create order
     const response = await cashfree.PGCreateOrder(request);
-    //console.log(response.data.payment_session_id);
+   
     // Return payment_session_id for front‑end checkout
     return response.data.payment_session_id;
   } catch (err) {
-    console.error(err.response || err.message);
     throw new Error("Failed to generate Cashfree session ID");
   }
 };
@@ -53,7 +52,6 @@ const paymentVerification = async (orderId) => {
     return response.data;
 
   } catch (err) {
-    console.error(err.response || err.message);
     throw new Error("Failed to verify payment");
   }
 };

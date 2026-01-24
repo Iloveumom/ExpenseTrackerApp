@@ -10,12 +10,12 @@ const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
 const sendForgotPasswordMail = async (toEmail, resetUrl) => {
   try {
-    console.log("RESET URL:", resetUrl); // 🔥 fallback if mail fails
+    console.log("RESET URL:", resetUrl); // fallback if mail fails
 
     const response = await apiInstance.sendTransacEmail({
       sender: {
         email: "jtndrbhatia93@gmail.com",
-        name: "Expense Tracker App"
+        name: process.env.APP_NAME
       },
       to: [{ email: toEmail }],
       subject: "Reset your password",
@@ -30,7 +30,7 @@ const sendForgotPasswordMail = async (toEmail, resetUrl) => {
     return response;
 
   } catch (err) {
-    console.log("Brevo Mail Error:", err.message);
+   // console.log("Brevo Mail Error:", err.message);
   }
 };
 
