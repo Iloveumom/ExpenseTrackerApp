@@ -32,7 +32,7 @@ const forgotPassword = async (req, res) => {
       isActive: true
     });
 
-    const resetUrl = `http://localhost:4000/password/resetpassword/${request.id}`;
+    const resetUrl = `${process.env.BASE_URL}/password/resetpassword/${request.id}`;
 
     // SEND MAIL WITH RESET LINK
     await sendForgotPasswordMail(email, resetUrl);
@@ -43,7 +43,7 @@ const forgotPassword = async (req, res) => {
     });
 
   } catch (err) {
-    console.log(err);
+   // console.log(err);
     return res.status(500).json({
       success: false,
       message: "Something went wrong"
@@ -54,7 +54,7 @@ const forgotPassword = async (req, res) => {
 const verifyResetLink = async (req, res) => {
   
   const { uuid } = req.params;
-  console.log("First",req.params);
+ // console.log("First",req.params);
   const request = await ForgotPasswordRequest.findOne({
     where: { id: uuid, isActive: true }
   });
@@ -101,7 +101,7 @@ const resetPassword = async (req, res) => {
 
   } catch (err) {
     await t.rollback();
-    console.log(err);
+   // console.log(err);
     res.status(500).json({ message: "Server error" });
   }
 };

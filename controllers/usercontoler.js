@@ -6,7 +6,6 @@ const addSignupdetail=async(req,res)=>{
     bcrypt.hash(password,10,async (err,hash)=>{
             try
             {
-               // console.log(err,hash);
                 if(err)
                 {
                     throw new Error("sothing wrong");
@@ -47,7 +46,7 @@ const checkLogindetail = async (req, res) => {
 };
 const genrateToken=(id,email,isPremium)=>{
    return jwt.sign(
-    { SignupId:id ,email:email,isPremium:isPremium},"secret_key"
+    { SignupId:id ,email:email,isPremium:isPremium},process.env.PASSWORD_TOKEN_SECRET_KEY
   );
 }
 
