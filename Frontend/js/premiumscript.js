@@ -119,15 +119,18 @@ async function download(){
   try
   {
     const response=await axios.get('http://localhost:4000/premium/download', { headers: {"Authorization" : token} })
-    if(response.status === 201)
+    
+     if(response.status === 200)
     {
+          console.log(response.data.fileUrl) ;   
             var a = document.createElement("a");
             a.href = response.data.fileUrl;
             a.download = 'myexpense.csv';
             a.click();
-    } else 
+    } 
+    else 
     {
-            throw new Error(response.data.message)
+      console.log(err);
     }
   }
     catch(err)
