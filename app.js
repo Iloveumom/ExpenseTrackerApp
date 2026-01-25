@@ -28,6 +28,7 @@ app.use("/users",userroute);
 app.use("/expenses",expenseroute);
 app.use("/premium",premiumroute);
 app.use("/Ai",airoute);
+
 app.use("/password", passwordRoutes);
 app.use("/payment", paymentRoutes);
 
