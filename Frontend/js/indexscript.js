@@ -19,7 +19,7 @@ async function loadExpenses(page) {
         const limit = getLimit();
 
         const response = await axios.get(
-          `http://localhost:4000/expenses/getExpenses?page=${page}&limit=${limit}`,
+          `expenses/getExpenses?page=${page}&limit=${limit}`,
           {
             headers: { Authorization: token }
           }
@@ -105,7 +105,7 @@ async function addExpense(event)
       amount,description:desc,category,note
     }
     const token = localStorage.getItem("token");
-    const response=await axios.post("http://localhost:4000/expenses",data, {
+    const response=await axios.post("expenses",data, {
       headers: {
         Authorization:token   
       }})
@@ -171,7 +171,7 @@ async function deleteExpense(li, id)
    try
    {
             const token = localStorage.getItem("token");
-            const res=await axios.delete(`http://localhost:4000/expenses/${id}`,{
+            const res=await axios.delete(`expenses/${id}`,{
               headers: {
                 Authorization:token   
               }
@@ -197,7 +197,7 @@ async function findCategoryByAi(event)
 {
   try{
     let data={description:event.target.value};
-    const res=await axios.post("http://localhost:4000/Ai/getCategoryByAi",data)
+    const res=await axios.post("Ai/getCategoryByAi",data)
     
       if(res.data.answer)
       {
