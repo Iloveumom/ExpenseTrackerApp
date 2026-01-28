@@ -44,6 +44,7 @@ body {
   color: #fff;
   border: none;
   cursor: pointer;
+  margin-top:20px;
 }
 
 .form-group button:hover {
