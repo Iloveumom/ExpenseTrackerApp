@@ -26,8 +26,8 @@ const createPayment = async (req, res) => {
 
         res.json({ sessionId }); // send session ID to frontend
     } catch (err) {
-       // console.error(err);
-        res.status(500).json({ error: 'Failed to create Cashfree session' });
+        console.error(err);
+        res.status(500).json({ error: 'Failed to create Cashfree session',err});
     }
 };
 const paymentStatus=async (req, res) =>

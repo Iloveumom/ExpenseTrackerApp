@@ -9,7 +9,7 @@ if(!token)
 axios.get("api/me", {
     headers: {
       Authorization:token
-    }
+    } 
   })
   .then(res => {
     const btn = document.getElementById("buyPremiumBtn");
