@@ -21,7 +21,7 @@ app.use(cors()); // allow all origins
 
 
 
-app.use(express.static(path.join(__dirname, "./frontend")));
+app.use(express.static(path.join(__dirname, "./Frontend")));
 
 //Routes
 app.use("/users",userroute);
@@ -51,7 +51,7 @@ app.use(morgan("combined", { stream: accessLogStream }));
 db.sync()
 .then((res)=>{
         app.listen(process.env.PORT || 4000,()=>{
-          console.log("testing 2 jenking");
+          console.log("testing 2 jenking Final");
            console.log(`server running port ${process.env.PORT || 3000}`);
 })
 }).catch((err)=>{
