@@ -50,7 +50,7 @@ app.use(morgan("combined", { stream: accessLogStream }));
 
 db.sync()
 .then((res)=>{
-        app.listen(process.env.PORT || 3000,()=>{
+        app.listen(process.env.PORT || 4000,()=>{
           console.log("testing 2 jenking");
            console.log(`server running port ${process.env.PORT || 3000}`);
 })
