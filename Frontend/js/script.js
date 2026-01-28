@@ -37,7 +37,7 @@ function handleSignup(event) {
   if (!isValid) return false;
 
   // axios post request
-  axios.post("http://localhost:4000/users/signup", {
+  axios.post("users/signup", {
     name: name,
     email: email,
     password: password
@@ -91,7 +91,7 @@ function handleLogin(event)
   if (!isValid) return false;
 
   // axios post request
-  axios.post("http://localhost:4000/users/login", {
+  axios.post("users/login", {
     email: email,
     password: password
   })
@@ -136,7 +136,7 @@ async function handleForgotPassword(event) {
 
   try {
     const res = await axios.post(
-      "http://localhost:4000/password/forgotpassword",
+      "password/forgotpassword",
       { email }
     );
 
