@@ -43,11 +43,11 @@ function handleSignup(event) {
     password: password
   })
   .then(response => {
-    //console.log(response);
+   
     const msg=document.getElementById("Msg");
     msg.innerText =response.data.message;
     msg.style="color:green";
-    //document.getElementById("signupForm").reset();
+
     window.location.href = "login.html";
   })
   .catch(error => {
