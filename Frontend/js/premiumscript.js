@@ -6,10 +6,10 @@ if(!token)
 {
   window.location="login.html";
 }
-axios.get("http://localhost:4000/api/me", {
+axios.get("api/me", {
     headers: {
       Authorization:token
-    }
+    } 
   })
   .then(res => {
     const btn = document.getElementById("buyPremiumBtn");
@@ -76,7 +76,7 @@ async function showLeaderBoard() {
     try{
    //   const token = localStorage.getItem("token");
   
-      const res=await axios.get("http://localhost:4000/premium/showLeaderboard",{
+      const res=await axios.get("premium/showLeaderboard",{
       headers: {
     Authorization: token
   }});
@@ -118,7 +118,7 @@ async function showLeaderBoard() {
 async function download(){
   try
   {
-    const response=await axios.get('http://localhost:4000/premium/download', { headers: {"Authorization" : token} })
+    const response=await axios.get('premium/download', { headers: {"Authorization" : token} })
     
      if(response.status === 200)
     {

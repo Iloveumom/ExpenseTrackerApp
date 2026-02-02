@@ -24,17 +24,19 @@ async function loadExpenses(page) {
             headers: { Authorization: token }
           }
         );
+        const expensesContainer = document.querySelector(".expense-list");
+        expensesContainer.innerHTML = "";
+        if (response.data.data.length === 0 && currentPage===1) {
+            expensesContainer.innerHTML = "<li>No expenses found</li>";
+            return;
+        }
            if (currentPage > response.data.totalPages) {
             currentPage = response.data.totalPages || 1;
             return loadExpenses(currentPage);
         }
-        const expensesContainer = document.querySelector(".expense-list");
-        expensesContainer.innerHTML = "";
+      
 
-        if (response.data.data.length === 0) {
-            expensesContainer.innerHTML = "<li>No expenses found</li>";
-            return;
-        }
+       
 
         response.data.data.forEach(expense => {
             display(expense);

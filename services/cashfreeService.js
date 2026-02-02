@@ -1,14 +1,13 @@
 const { Cashfree } = require('cashfree-pg');
 require('dotenv').config();  // Load env variables
-
 // Hardcoded credentials
 const APP_ID = process.env.CASHFREE_API_KEY;
 const SECRET_KEY = process.env.CASHFREE_SECRET_KEY;
 const cashfree = new Cashfree(Cashfree.SANDBOX, APP_ID, SECRET_KEY);
 
-console.log("cash fre",APP_ID);
 const generateSession = async ({ orderId, orderAmount, orderCurrency,  customerID ,customerPhone}) => {
   try {
+    console.log("cash fre",APP_ID,SECRET_KEY);
     // Initialize Cashfree with constructor
     const expiryDate=new Date(Date.now()+60*60*1000); //1 hour from now
     const formatedExprDate=expiryDate.toISOString();
@@ -22,7 +21,7 @@ const generateSession = async ({ orderId, orderAmount, orderCurrency,  customerI
         customer_phone: customerPhone,
       },
       order_meta: {
-        return_url: `${process.env.BASE_URL}payment/payment-status/${orderId}`, // after payment
+        return_url: `${process.env.BASE_URL}/payment/payment-status/${orderId}`, // after payment
          payment_methods: "cc,dc,upi"
       },
       order_expiry_date:formatedExprDate
@@ -34,6 +33,7 @@ const generateSession = async ({ orderId, orderAmount, orderCurrency,  customerI
     // Return payment_session_id for front‑end checkout
     return response.data.payment_session_id;
   } catch (err) {
+    console.log("cash err",err.message);
     throw new Error("Failed to generate Cashfree session ID");
   }
 };

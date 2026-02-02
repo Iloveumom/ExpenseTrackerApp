@@ -33,7 +33,7 @@ const forgotPassword = async (req, res) => {
     });
 
     const resetUrl = `${process.env.BASE_URL}/password/resetpassword/${request.id}`;
-
+    console.log(resetUrl);
     // SEND MAIL WITH RESET LINK
     await sendForgotPasswordMail(email, resetUrl);
 

@@ -141,3 +141,102 @@ body {
 {
   width:200px;
 }
+#buyPremiumBtn {
+  background: linear-gradient(135deg, #ff9800, #ff5722);
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(255, 87, 34, 0.35);
+  transition: all 0.3s ease;
+}
+
+/* Hover effect */
+#buyPremiumBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(255, 87, 34, 0.5);
+  background: linear-gradient(135deg, #ff5722, #ff9800);
+}
+
+/* Click effect */
+#buyPremiumBtn:active {
+  transform: scale(0.96);
+}
+
+/* Disabled state (optional) */
+#buyPremiumBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.premiumuser {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* Common premium button style */
+#leaderbtn,
+#downloadexpense {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  color: #fff;
+  border: none;
+  padding: 11px 26px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(79, 172, 254, 0.35);
+  transition: all 0.3s ease;
+}
+
+/* Hover */
+#leaderbtn:hover,
+#downloadexpense:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(79, 172, 254, 0.55);
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+}
+
+/* Click */
+#leaderbtn:active,
+#downloadexpense:active {
+  transform: scale(0.96);
+}
+
+/* Common style */
+.expenseLimit {
+  font-size: 14px;
+  font-weight: 600;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* LEFT side */
+.expenseLimit.left {
+  justify-content: flex-start;
+}
+
+/* RIGHT side */
+.expenseLimit.right {
+  justify-content: flex-end;
+}
+
+/* Select styling */
+#limitSelect {
+  appearance: none;
+  background: linear-gradient(135deg, #f8f9fa, #eef1f5);
+  border: 1px solid #dcdcdc;
+  padding: 8px 36px 8px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+}

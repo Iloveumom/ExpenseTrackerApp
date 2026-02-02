@@ -30,7 +30,7 @@ const sendForgotPasswordMail = async (toEmail, resetUrl) => {
     return response;
 
   } catch (err) {
-   // console.log("Brevo Mail Error:", err.message);
+   console.log("Brevo Mail Error:", err.message);
   }
 };
 
